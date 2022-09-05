@@ -1,47 +1,43 @@
-// COLOCA AQUÍ TU NOMBRE COMPLETO
-// COLOCA AQUÍ TU ID
-// COLOCA AQUÍ TU CORREO ELECTRÓNICO
+// Emanuel Perez Olivero
+// 000377811
+// emanuel.perez@.edu.co
 
 (MAIN_LOOP)
-	// reset screen address
+
 	@SCREEN
 	D = A
 	@address
-	M = D			// address = 16384 (base address of the Hack screen)
+	M = D			
 
-	@i				// i = 0
+	@i			
 	M = 0
 	@8192
-	D = A           // i = 0 to 8191 (pixels)
+	D = A           
 	@screen_buffer_end
 	M = D
 
 	@color			
-	M = 0			// default color to white
+	M = 0			
     @84
-    D=A 
+     
     
 	@KBD
     
-	D = M			// read contents of keyboard
+	D = M			
    
     
    
-	@FILL_SCREEN
-	D;JEQ			// if no key pressed, fill screen with white
+	@GET
+	D;JEQ			
 
-	// key is pressed, fill screen with black
+	
 	@color
 	M = -1
 
-	// Fill screen with specified color
-	// pixels are at address 0 to 4096
-	// (for i = 0; i < 4096; i++) {
-	//     SCREEN[i] = color;
-	// }
+	
 
-	(FILL_SCREEN)
-		// if (i == screen_buffer_end) GOTO MAIN_LOOP
+	(GET)
+		
 	  	@i
   		D = M
  	 	@screen_buffer_end
@@ -49,17 +45,16 @@
 	  	@MAIN_LOOP
   		D;JEQ
 
-	  	// Write color to current address on screen
-  		// address[i] = color
+	  	
   		@color
   		D = M
 	    @address
-	    A = M		// writing to memory using a pointer:
-	    M = D		// RAM[address] = color (16 pixels)
+	    A = M		
+	    M = D		
  
 	    @i
-	    M = M + 1	// i = i + 1
+	    M = M + 1	
 	    @address
-	    M = M + 1	// address = address + 1
-		@FILL_SCREEN 	
-		0;JMP		// repeat
+	    M = M + 1	
+		@GET 	
+		0;JMP		
