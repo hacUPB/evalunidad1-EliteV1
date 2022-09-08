@@ -2,59 +2,62 @@
 // 000377811
 // emanuel.perez@.edu.co
 
-(MAIN_LOOP)
+(START)			
+	@KBD
+	D=M
+	@KEY	
+	D;JNE
+	@START
+	0;JMP
 
+(KEY)
+// 84 para la T, 67 para la c
+	@j
+	M = D // save key
+	@84  // press f
+	D = D-A
+	@FILL
+	D;JEQ
+	@j
+	D = M
+	@67
+	D = D - A
+	@ERASE
+	D;JEQ
+	@START
+	0;JMP
+
+(FILL)
+	@value
+	M = -1
+	@DRAW
+	0;JMP
+
+(ERASE)
+	@value
+	M = 0
+	@DRAW
+	0;JMP
+
+(DRAW)
 	@SCREEN
 	D = A
-	@address
-	M = D			
-
-	@i			
-	M = 0
-	@8192
-	D = A           
-	@screen_buffer_end
+	@i
 	M = D
 
-	@color			
-	M = 0			
-    @84
-     
-    
-	@KBD
-    
-	D = M			
-   
-    
-   
-	@GET
-	D;JEQ			
-
-	
-	@color
-	M = -1
-
-	
-
-	(GET)
-		
-	  	@i
-  		D = M
- 	 	@screen_buffer_end
-	  	D = D - M
-	  	@MAIN_LOOP
-  		D;JEQ
-
-	  	
-  		@color
-  		D = M
-	    @address
-	    A = M		
-	    M = D		
- 
-	    @i
-	    M = M + 1	
-	    @address
-	    M = M + 1	
-		@GET 	
-		0;JMP		
+(LOOP)
+	@value
+	D = M
+	@i
+	A = M
+	M = D
+	@i
+	M = M + 1
+	@24576
+	D = A
+	@i
+	D = M - D
+	@LOOP
+	D;JNE
+	@START
+	0;JMP
